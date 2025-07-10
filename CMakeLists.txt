@@ -29,8 +29,9 @@ add_executable(VirtualDriveMount
 )
 
 # Link libraries
-target_link_libraries(VirtualDriveMount 
+target_link_libraries(VirtualDriveMount
     winfsp-x64
+    Virtdisk
 )
 
 # Copy WinFsp DLL to output directory

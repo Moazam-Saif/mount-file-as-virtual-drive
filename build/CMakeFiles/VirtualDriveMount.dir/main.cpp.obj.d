@@ -138,6 +138,11 @@ CMakeFiles/VirtualDriveMount.dir/main.cpp.obj: D:\mounting\main.cpp \
  E:/msys64/ucrt64/include/c++/15.1.0/bits/ostream.tcc \
  E:/msys64/ucrt64/include/c++/15.1.0/istream \
  E:/msys64/ucrt64/include/c++/15.1.0/bits/istream.tcc \
+ E:/msys64/ucrt64/include/c++/15.1.0/fstream \
+ E:/msys64/ucrt64/include/c++/15.1.0/bits/codecvt.h \
+ E:/msys64/ucrt64/include/c++/15.1.0/x86_64-w64-mingw32/bits/basic_file.h \
+ E:/msys64/ucrt64/include/c++/15.1.0/x86_64-w64-mingw32/bits/c++io.h \
+ E:/msys64/ucrt64/include/c++/15.1.0/bits/fstream.tcc \
  E:/msys64/ucrt64/include/windows.h E:/msys64/ucrt64/include/sdkddkver.h \
  E:/msys64/ucrt64/include/excpt.h \
  E:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/stdarg.h \
@@ -359,9 +364,4 @@ CMakeFiles/VirtualDriveMount.dir/main.cpp.obj: D:\mounting\main.cpp \
  E:/msys64/ucrt64/include/stralign.h \
  E:/msys64/ucrt64/include/sec_api/stralign_s.h \
  E:/msys64/ucrt64/include/winsvc.h E:/msys64/ucrt64/include/mcx.h \
- E:/msys64/ucrt64/include/imm.h D:\mounting\VirtualDrive.h \
- C:/PROGRA~2/WinFsp/inc/fuse/fuse.h \
- C:/PROGRA~2/WinFsp/inc/fuse/fuse_common.h \
- C:/PROGRA~2/WinFsp/inc/fuse/winfsp_fuse.h \
- E:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/stdint.h \
- E:/msys64/ucrt64/include/stdint.h C:/PROGRA~2/WinFsp/inc/fuse/fuse_opt.h
+ E:/msys64/ucrt64/include/imm.h

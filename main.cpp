@@ -1,57 +1,149 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <windows.h>
-#include "VirtualDrive.h"
 
-// Check if WinFsp is available before including VirtualDrive.h
-bool checkWinFspAvailability() {
-    HMODULE hModule = LoadLibraryA("winfsp-x64.dll");
-    if (hModule) {
-        FreeLibrary(hModule);
-        return true;
-    }
-    return false;
+void printMenu() {
+    std::cout << "\nVirtual Disk CLI\n";
+    std::cout << "1. Create VHD\n";
+    std::cout << "2. Mount VHD\n";
+    std::cout << "3. Unmount VHD\n";
+    std::cout << "4. Exit\n";
+    std::cout << "Enter choice: ";
 }
 
-void printUsage() {
-    std::cout << "Usage:\n";
-    std::cout << "  mount <source_folder> <mount_point>   - Mount folder as virtual drive\n";
-    std::cout << "Example:\n";
-    std::cout << "  mount C:\\MyFolder M:\n";
-    std::cout << "Note: Unmount by pressing Ctrl+C or using fusermount.exe\n";
+bool fileExists(const std::string& filename) {
+    DWORD attrib = GetFileAttributesA(filename.c_str());
+    return (attrib != INVALID_FILE_ATTRIBUTES && !(attrib & FILE_ATTRIBUTE_DIRECTORY));
 }
 
-int main(int argc, char* argv[]) {
-    // Check WinFsp availability first
-    if (!checkWinFspAvailability()) {
-        std::cerr << "Error: WinFsp is not installed or not found in PATH.\n";
-        std::cerr << "Please install WinFsp from: https://github.com/winfsp/winfsp/releases\n";
-        return 1;
+bool createVHD(const std::string& filename) {
+    if (fileExists(filename)) {
+        std::cout << "File already exists.\n";
+        return false;
     }
 
-    if (argc < 2) {
-        printUsage();
-        return 1;
+    char driveLetter = getFreeDriveLetter();
+    if (!driveLetter) {
+        std::cout << "No free drive letter available.\n";
+        return false;
     }
 
-    std::string command = argv[1];
+    // Create diskpart script
+    std::ofstream script("create_vhd.txt");
+    script << "create vdisk file=\"" << filename << "\" maximum=100 type=expandable\n";
+    script << "select vdisk file=\"" << filename << "\"\n";
+    script << "attach vdisk\n";
+    script << "create partition primary\n";
+    script << "assign letter=" << driveLetter << "\n";
+    script.close();
 
-    if (command == "mount" && argc == 4) {
-        std::string sourceFolder = argv[2];
-        std::string mountPoint = argv[3];
+    // Run diskpart
+    system("diskpart /s create_vhd.txt");
 
-        std::cout << "Mounting " << sourceFolder << " at " << mountPoint << std::endl;
-
-        VirtualDrive drive;
-        if (!drive.mount(sourceFolder, mountPoint)) {
-            std::cerr << "Failed to mount." << std::endl;
-            return 1;
+    // Wait for the drive to appear
+    std::string driveRoot = std::string(1, driveLetter) + ":\\";
+    bool driveReady = false;
+    for (int i = 0; i < 10; ++i) {
+        DWORD attrib = GetFileAttributesA(driveRoot.c_str());
+        if (attrib != INVALID_FILE_ATTRIBUTES) {
+            driveReady = true;
+            break;
         }
-
-    } else {
-        printUsage();
-        return 1;
+        Sleep(500);
+    }
+    if (!driveReady) {
+        std::cout << "Drive " << driveLetter << ": was not assigned or is not ready.\n";
+        return false;
     }
 
+    // Format as NTFS
+    std::cout << "Formatting VHD as NTFS...\n";
+    std::string cmd = "format ";
+    cmd += driveLetter;
+    cmd += ": /FS:NTFS /Q /Y";
+    system(cmd.c_str());
+
+    // Detach VHD
+    std::ofstream detach("detach_vhd.txt");
+    detach << "select vdisk file=\"" << filename << "\"\n";
+    detach << "detach vdisk\n";
+    detach.close();
+    system("diskpart /s detach_vhd.txt");
+
+    // Clean up
+    remove("create_vhd.txt");
+    remove("detach_vhd.txt");
+
+    std::cout << "VHD created, formatted, and detached.\n";
+    return true;
+}
+
+bool mountVHD(const std::string& filename) {
+    if (!fileExists(filename) || filename.substr(filename.size()-4) != ".vhd") {
+        std::cout << "File does not exist or is not a .vhd file.\n";
+        return false;
+    }
+    std::ofstream script("mount_vhd.txt");
+    script << "select vdisk file=\"" << filename << "\"\n";
+    script << "attach vdisk\n";
+    script.close();
+    system("diskpart /s mount_vhd.txt");
+    remove("mount_vhd.txt");
+    std::cout << "VHD mounted.\n";
+    return true;
+}
+
+bool unmountVHD(const std::string& filename) {
+    if (!fileExists(filename) || filename.substr(filename.size()-4) != ".vhd") {
+        std::cout << "File does not exist or is not a .vhd file.\n";
+        return false;
+    }
+    std::ofstream script("unmount_vhd.txt");
+    script << "select vdisk file=\"" << filename << "\"\n";
+    script << "detach vdisk\n";
+    script.close();
+    system("diskpart /s unmount_vhd.txt");
+    remove("unmount_vhd.txt");
+    std::cout << "VHD unmounted.\n";
+    return true;
+}
+
+char getFreeDriveLetter() {
+    DWORD drives = GetLogicalDrives();
+    std::set<char> skip = {'C', 'D', 'E'};
+    for (char letter = 'Z'; letter >= 'A'; --letter) {
+        if (skip.count(letter)) continue;
+        if (!(drives & (1 << (letter - 'A')))) {
+            return letter;
+        }
+    }
+    return 0; // No free letter found
+}
+
+int main() {
+    std::string filename;
+    while (true) {
+        printMenu();
+        int choice;
+        std::cin >> choice;
+        if (choice == 1) {
+            std::cout << "Enter new VHD filename (with .vhd extension): ";
+            std::cin >> filename;
+            createVHD(filename);
+        } else if (choice == 2) {
+            std::cout << "Enter existing VHD filename (with .vhd extension): ";
+            std::cin >> filename;
+            mountVHD(filename);
+        } else if (choice == 3) {
+            std::cout << "Enter VHD filename to unmount (with .vhd extension): ";
+            std::cin >> filename;
+            unmountVHD(filename);
+        } else if (choice == 4) {
+            break;
+        } else {
+            std::cout << "Invalid choice.\n";
+        }
+    }
     return 0;
 }
