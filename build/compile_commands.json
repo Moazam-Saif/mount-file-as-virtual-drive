@@ -1,0 +1,14 @@
+[
+{
+  "directory": "D:/mounting/build",
+  "command": "E:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/VirtualDriveMount.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\VirtualDriveMount.dir\\main.cpp.obj -c D:\\mounting\\main.cpp",
+  "file": "D:/mounting/main.cpp",
+  "output": "CMakeFiles/VirtualDriveMount.dir/main.cpp.obj"
+},
+{
+  "directory": "D:/mounting/build",
+  "command": "E:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/VirtualDriveMount.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\VirtualDriveMount.dir\\VirtualDrive.cpp.obj -c D:\\mounting\\VirtualDrive.cpp",
+  "file": "D:/mounting/VirtualDrive.cpp",
+  "output": "CMakeFiles/VirtualDriveMount.dir/VirtualDrive.cpp.obj"
+}
+]

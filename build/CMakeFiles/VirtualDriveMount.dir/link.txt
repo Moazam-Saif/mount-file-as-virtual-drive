@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\VirtualDriveMount.dir/objects.a
+E:\msys64\ucrt64\bin\ar.exe qc CMakeFiles\VirtualDriveMount.dir/objects.a @CMakeFiles\VirtualDriveMount.dir\objects1.rsp
+E:\msys64\ucrt64\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\VirtualDriveMount.dir/objects.a -Wl,--no-whole-archive -o VirtualDriveMount.exe -Wl,--out-implib,libVirtualDriveMount.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\VirtualDriveMount.dir\linkLibs.rsp

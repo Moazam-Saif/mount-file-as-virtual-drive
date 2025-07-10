@@ -1,0 +1,3 @@
+D:/mounting/build/CMakeFiles/VirtualDriveMount.dir
+D:/mounting/build/CMakeFiles/edit_cache.dir
+D:/mounting/build/CMakeFiles/rebuild_cache.dir
