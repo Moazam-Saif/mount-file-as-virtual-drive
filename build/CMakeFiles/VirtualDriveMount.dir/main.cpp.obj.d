@@ -364,4 +364,10 @@ CMakeFiles/VirtualDriveMount.dir/main.cpp.obj: D:\mounting\main.cpp \
  E:/msys64/ucrt64/include/stralign.h \
  E:/msys64/ucrt64/include/sec_api/stralign_s.h \
  E:/msys64/ucrt64/include/winsvc.h E:/msys64/ucrt64/include/mcx.h \
- E:/msys64/ucrt64/include/imm.h
+ E:/msys64/ucrt64/include/imm.h E:/msys64/ucrt64/include/c++/15.1.0/set \
+ E:/msys64/ucrt64/include/c++/15.1.0/bits/stl_tree.h \
+ E:/msys64/ucrt64/include/c++/15.1.0/ext/aligned_buffer.h \
+ E:/msys64/ucrt64/include/c++/15.1.0/bits/node_handle.h \
+ E:/msys64/ucrt64/include/c++/15.1.0/bits/stl_set.h \
+ E:/msys64/ucrt64/include/c++/15.1.0/bits/stl_multiset.h \
+ E:/msys64/ucrt64/include/c++/15.1.0/bits/erase_if.h

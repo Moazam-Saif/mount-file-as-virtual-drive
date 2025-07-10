@@ -164,11 +164,6 @@ CMakeFiles/VirtualDriveMount.dir/VirtualDrive.cpp.obj: D:/mounting/VirtualDrive.
   E:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/syslimits.h
 
 CMakeFiles/VirtualDriveMount.dir/main.cpp.obj: D:/mounting/main.cpp \
-  C:/Program\ Files\ (x86)/WinFsp/inc/fuse/fuse.h \
-  C:/Program\ Files\ (x86)/WinFsp/inc/fuse/fuse_common.h \
-  C:/Program\ Files\ (x86)/WinFsp/inc/fuse/fuse_opt.h \
-  C:/Program\ Files\ (x86)/WinFsp/inc/fuse/winfsp_fuse.h \
-  D:/mounting/VirtualDrive.h \
   E:/msys64/ucrt64/include/_bsd_types.h \
   E:/msys64/ucrt64/include/_mingw.h \
   E:/msys64/ucrt64/include/_mingw_mac.h \
@@ -193,13 +188,16 @@ CMakeFiles/VirtualDriveMount.dir/main.cpp.obj: D:/mounting/main.cpp \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/basic_string.tcc \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/char_traits.h \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/charconv.h \
+  E:/msys64/ucrt64/include/c++/15.1.0/bits/codecvt.h \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/concept_check.h \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/cpp_type_traits.h \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/cxxabi_forced.h \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/cxxabi_init_exception.h \
+  E:/msys64/ucrt64/include/c++/15.1.0/bits/erase_if.h \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/exception.h \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/exception_defines.h \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/exception_ptr.h \
+  E:/msys64/ucrt64/include/c++/15.1.0/bits/fstream.tcc \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/functexcept.h \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/functional_hash.h \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/hash_bytes.h \
@@ -216,6 +214,7 @@ CMakeFiles/VirtualDriveMount.dir/main.cpp.obj: D:/mounting/main.cpp \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/move.h \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/nested_exception.h \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/new_allocator.h \
+  E:/msys64/ucrt64/include/c++/15.1.0/bits/node_handle.h \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/ostream.h \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/ostream.tcc \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/ostream_insert.h \
@@ -232,7 +231,10 @@ CMakeFiles/VirtualDriveMount.dir/main.cpp.obj: D:/mounting/main.cpp \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/stl_iterator.h \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/stl_iterator_base_funcs.h \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/stl_iterator_base_types.h \
+  E:/msys64/ucrt64/include/c++/15.1.0/bits/stl_multiset.h \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/stl_pair.h \
+  E:/msys64/ucrt64/include/c++/15.1.0/bits/stl_set.h \
+  E:/msys64/ucrt64/include/c++/15.1.0/bits/stl_tree.h \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/streambuf.tcc \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/streambuf_iterator.h \
   E:/msys64/ucrt64/include/c++/15.1.0/bits/string_view.tcc \
@@ -253,11 +255,13 @@ CMakeFiles/VirtualDriveMount.dir/main.cpp.obj: D:/mounting/main.cpp \
   E:/msys64/ucrt64/include/c++/15.1.0/debug/assertions.h \
   E:/msys64/ucrt64/include/c++/15.1.0/debug/debug.h \
   E:/msys64/ucrt64/include/c++/15.1.0/exception \
+  E:/msys64/ucrt64/include/c++/15.1.0/ext/aligned_buffer.h \
   E:/msys64/ucrt64/include/c++/15.1.0/ext/alloc_traits.h \
   E:/msys64/ucrt64/include/c++/15.1.0/ext/atomicity.h \
   E:/msys64/ucrt64/include/c++/15.1.0/ext/numeric_traits.h \
   E:/msys64/ucrt64/include/c++/15.1.0/ext/string_conversions.h \
   E:/msys64/ucrt64/include/c++/15.1.0/ext/type_traits.h \
+  E:/msys64/ucrt64/include/c++/15.1.0/fstream \
   E:/msys64/ucrt64/include/c++/15.1.0/initializer_list \
   E:/msys64/ucrt64/include/c++/15.1.0/ios \
   E:/msys64/ucrt64/include/c++/15.1.0/iosfwd \
@@ -266,6 +270,7 @@ CMakeFiles/VirtualDriveMount.dir/main.cpp.obj: D:/mounting/main.cpp \
   E:/msys64/ucrt64/include/c++/15.1.0/new \
   E:/msys64/ucrt64/include/c++/15.1.0/ostream \
   E:/msys64/ucrt64/include/c++/15.1.0/pstl/pstl_config.h \
+  E:/msys64/ucrt64/include/c++/15.1.0/set \
   E:/msys64/ucrt64/include/c++/15.1.0/stdexcept \
   E:/msys64/ucrt64/include/c++/15.1.0/stdlib.h \
   E:/msys64/ucrt64/include/c++/15.1.0/streambuf \
@@ -276,8 +281,10 @@ CMakeFiles/VirtualDriveMount.dir/main.cpp.obj: D:/mounting/main.cpp \
   E:/msys64/ucrt64/include/c++/15.1.0/type_traits \
   E:/msys64/ucrt64/include/c++/15.1.0/typeinfo \
   E:/msys64/ucrt64/include/c++/15.1.0/x86_64-w64-mingw32/bits/atomic_word.h \
+  E:/msys64/ucrt64/include/c++/15.1.0/x86_64-w64-mingw32/bits/basic_file.h \
   E:/msys64/ucrt64/include/c++/15.1.0/x86_64-w64-mingw32/bits/c++allocator.h \
   E:/msys64/ucrt64/include/c++/15.1.0/x86_64-w64-mingw32/bits/c++config.h \
+  E:/msys64/ucrt64/include/c++/15.1.0/x86_64-w64-mingw32/bits/c++io.h \
   E:/msys64/ucrt64/include/c++/15.1.0/x86_64-w64-mingw32/bits/c++locale.h \
   E:/msys64/ucrt64/include/c++/15.1.0/x86_64-w64-mingw32/bits/cpu_defines.h \
   E:/msys64/ucrt64/include/c++/15.1.0/x86_64-w64-mingw32/bits/ctype_base.h \
@@ -406,7 +413,6 @@ CMakeFiles/VirtualDriveMount.dir/main.cpp.obj: D:/mounting/main.cpp \
   E:/msys64/ucrt64/include/specstrings.h \
   E:/msys64/ucrt64/include/stdarg.h \
   E:/msys64/ucrt64/include/stddef.h \
-  E:/msys64/ucrt64/include/stdint.h \
   E:/msys64/ucrt64/include/stdio.h \
   E:/msys64/ucrt64/include/stdlib.h \
   E:/msys64/ucrt64/include/stralign.h \
@@ -561,7 +567,6 @@ CMakeFiles/VirtualDriveMount.dir/main.cpp.obj: D:/mounting/main.cpp \
   E:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/smmintrin.h \
   E:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/stdarg.h \
   E:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/stddef.h \
-  E:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/stdint.h \
   E:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/syslimits.h \
   E:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/tbmintrin.h \
   E:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/tmmintrin.h \
@@ -706,6 +711,8 @@ E:/msys64/ucrt64/include/ktmtypes.h:
 
 E:/msys64/ucrt64/include/c++/15.1.0/bits/cxxabi_init_exception.h:
 
+E:/msys64/ucrt64/include/c++/15.1.0/set:
+
 E:/msys64/ucrt64/include/c++/15.1.0/bits/exception.h:
 
 E:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/cmpccxaddintrin.h:
@@ -782,6 +789,8 @@ E:/msys64/ucrt64/include/c++/15.1.0/bits/postypes.h:
 
 E:/msys64/ucrt64/include/imm.h:
 
+E:/msys64/ucrt64/include/c++/15.1.0/bits/codecvt.h:
+
 E:/msys64/ucrt64/include/c++/15.1.0/bits/ptr_traits.h:
 
 E:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/avx512vlintrin.h:
@@ -823,6 +832,8 @@ E:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/amxbf16intrin.h:
 E:/msys64/ucrt64/include/namedpipeapi.h:
 
 E:/msys64/ucrt64/include/c++/15.1.0/clocale:
+
+E:/msys64/ucrt64/include/c++/15.1.0/bits/stl_tree.h:
 
 E:/msys64/ucrt64/include/c++/15.1.0/concepts:
 
@@ -996,6 +1007,8 @@ E:/msys64/ucrt64/include/pthread_unistd.h:
 
 E:/msys64/ucrt64/include/timeapi.h:
 
+E:/msys64/ucrt64/include/c++/15.1.0/bits/stl_set.h:
+
 E:/msys64/ucrt64/include/sched.h:
 
 E:/msys64/ucrt64/include/sdks/_mingw_ddk.h:
@@ -1058,6 +1071,8 @@ E:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/avx10_2minmaxintrin.h
 
 E:/msys64/ucrt64/include/psdk_inc/_xmitfile.h:
 
+E:/msys64/ucrt64/include/c++/15.1.0/bits/fstream.tcc:
+
 E:/msys64/ucrt64/include/_mingw_stdarg.h:
 
 E:/msys64/ucrt64/include/_mingw_unicode.h:
@@ -1076,9 +1091,25 @@ E:/msys64/ucrt64/include/bcrypt.h:
 
 E:/msys64/ucrt64/include/bemapiset.h:
 
+E:/msys64/ucrt64/include/c++/15.1.0/bits/erase_if.h:
+
+E:/msys64/ucrt64/include/c++/15.1.0/bits/node_handle.h:
+
 E:/msys64/ucrt64/include/pshpack4.h:
 
 E:/msys64/ucrt64/include/cderr.h:
+
+E:/msys64/ucrt64/include/c++/15.1.0/bits/stl_multiset.h:
+
+E:/msys64/ucrt64/include/c++/15.1.0/ext/aligned_buffer.h:
+
+E:/msys64/ucrt64/include/c++/15.1.0/fstream:
+
+E:/msys64/ucrt64/include/wingdi.h:
+
+E:/msys64/ucrt64/include/c++/15.1.0/x86_64-w64-mingw32/bits/basic_file.h:
+
+E:/msys64/ucrt64/include/c++/15.1.0/x86_64-w64-mingw32/bits/c++io.h:
 
 E:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/bmi2intrin.h:
 
@@ -1285,8 +1316,6 @@ E:/msys64/ucrt64/include/wincrypt.h:
 E:/msys64/ucrt64/include/windef.h:
 
 E:/msys64/ucrt64/include/windows.h:
-
-E:/msys64/ucrt64/include/wingdi.h:
 
 E:/msys64/ucrt64/include/winioctl.h:
 

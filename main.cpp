@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <windows.h>
+#include <set>
 
 void printMenu() {
     std::cout << "\nVirtual Disk CLI\n";
@@ -17,6 +18,18 @@ bool fileExists(const std::string& filename) {
     return (attrib != INVALID_FILE_ATTRIBUTES && !(attrib & FILE_ATTRIBUTE_DIRECTORY));
 }
 
+char getFreeDriveLetter() {
+    DWORD drives = GetLogicalDrives();
+    std::set<char> skip = {'C', 'D', 'E'};
+    for (char letter = 'Z'; letter >= 'A'; --letter) {
+        if (skip.count(letter)) continue;
+        if (!(drives & (1 << (letter - 'A')))) {
+            return letter;
+        }
+    }
+    return 0; // No free letter found
+}
+
 bool createVHD(const std::string& filename) {
     if (fileExists(filename)) {
         std::cout << "File already exists.\n";
@@ -29,6 +42,8 @@ bool createVHD(const std::string& filename) {
         return false;
     }
 
+    std::cout << "Assigning drive letter: " << driveLetter << std::endl;
+
     // Create diskpart script
     std::ofstream script("create_vhd.txt");
     script << "create vdisk file=\"" << filename << "\" maximum=100 type=expandable\n";
@@ -38,13 +53,17 @@ bool createVHD(const std::string& filename) {
     script << "assign letter=" << driveLetter << "\n";
     script.close();
 
-    // Run diskpart
-    system("diskpart /s create_vhd.txt");
+    // Run diskpart and capture output
+    system("diskpart /s create_vhd.txt > diskpart_output.txt");
+    std::ifstream out("diskpart_output.txt");
+    std::cout << out.rdbuf();
+    out.close();
+    remove("diskpart_output.txt");
 
-    // Wait for the drive to appear
+    // Wait for the drive to appear (try for up to 10 seconds)
     std::string driveRoot = std::string(1, driveLetter) + ":\\";
     bool driveReady = false;
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 20; ++i) {
         DWORD attrib = GetFileAttributesA(driveRoot.c_str());
         if (attrib != INVALID_FILE_ATTRIBUTES) {
             driveReady = true;
@@ -109,17 +128,7 @@ bool unmountVHD(const std::string& filename) {
     return true;
 }
 
-char getFreeDriveLetter() {
-    DWORD drives = GetLogicalDrives();
-    std::set<char> skip = {'C', 'D', 'E'};
-    for (char letter = 'Z'; letter >= 'A'; --letter) {
-        if (skip.count(letter)) continue;
-        if (!(drives & (1 << (letter - 'A')))) {
-            return letter;
-        }
-    }
-    return 0; // No free letter found
-}
+
 
 int main() {
     std::string filename;

@@ -1,0 +1,5 @@
+create vdisk file="newfile.vhd" maximum=100 type=expandable
+select vdisk file="newfile.vhd"
+attach vdisk
+create partition primary
+assign letter=Z
