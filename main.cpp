@@ -44,10 +44,17 @@ bool createVHD(const std::string& filename) {
 
     std::cout << "Assigning drive letter: " << driveLetter << std::endl;
 
+    // Get full path for diskpart
+    char fullPath[MAX_PATH];
+    if (GetFullPathNameA(filename.c_str(), MAX_PATH, fullPath, nullptr) == 0) {
+        std::cout << "Failed to get full path for VHD file.\n";
+        return false;
+    }
+
     // Create diskpart script
     std::ofstream script("create_vhd.txt");
-    script << "create vdisk file=\"" << filename << "\" maximum=100 type=expandable\n";
-    script << "select vdisk file=\"" << filename << "\"\n";
+    script << "create vdisk file=\"" << fullPath << "\" maximum=100 type=expandable\n";
+    script << "select vdisk file=\"" << fullPath << "\"\n";
     script << "attach vdisk\n";
     script << "create partition primary\n";
     script << "assign letter=" << driveLetter << "\n";
@@ -85,7 +92,7 @@ bool createVHD(const std::string& filename) {
 
     // Detach VHD
     std::ofstream detach("detach_vhd.txt");
-    detach << "select vdisk file=\"" << filename << "\"\n";
+    detach << "select vdisk file=\"" << fullPath << "\"\n";
     detach << "detach vdisk\n";
     detach.close();
     system("diskpart /s detach_vhd.txt");
@@ -103,8 +110,14 @@ bool mountVHD(const std::string& filename) {
         std::cout << "File does not exist or is not a .vhd file.\n";
         return false;
     }
+    // Get full path for diskpart
+    char fullPath[MAX_PATH];
+    if (GetFullPathNameA(filename.c_str(), MAX_PATH, fullPath, nullptr) == 0) {
+        std::cout << "Failed to get full path for VHD file.\n";
+        return false;
+    }
     std::ofstream script("mount_vhd.txt");
-    script << "select vdisk file=\"" << filename << "\"\n";
+    script << "select vdisk file=\"" << fullPath << "\"\n";
     script << "attach vdisk\n";
     script.close();
     system("diskpart /s mount_vhd.txt");
@@ -118,8 +131,14 @@ bool unmountVHD(const std::string& filename) {
         std::cout << "File does not exist or is not a .vhd file.\n";
         return false;
     }
+    // Get full path for diskpart
+    char fullPath[MAX_PATH];
+    if (GetFullPathNameA(filename.c_str(), MAX_PATH, fullPath, nullptr) == 0) {
+        std::cout << "Failed to get full path for VHD file.\n";
+        return false;
+    }
     std::ofstream script("unmount_vhd.txt");
-    script << "select vdisk file=\"" << filename << "\"\n";
+    script << "select vdisk file=\"" << fullPath << "\"\n";
     script << "detach vdisk\n";
     script.close();
     system("diskpart /s unmount_vhd.txt");
@@ -127,8 +146,6 @@ bool unmountVHD(const std::string& filename) {
     std::cout << "VHD unmounted.\n";
     return true;
 }
-
-
 
 int main() {
     std::string filename;

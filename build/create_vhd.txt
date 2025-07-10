@@ -1,5 +1,5 @@
-create vdisk file="newfile.vhd" maximum=100 type=expandable
-select vdisk file="newfile.vhd"
+create vdisk file="D:\mounting\build\hiiii.vhd" maximum=100 type=expandable
+select vdisk file="D:\mounting\build\hiiii.vhd"
 attach vdisk
 create partition primary
 assign letter=Z
