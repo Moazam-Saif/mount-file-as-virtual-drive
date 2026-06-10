@@ -2,24 +2,38 @@
 
 A Windows CLI tool for creating, mounting, and unmounting Virtual Hard Disk (VHD) files using `diskpart`, with a partially implemented FUSE-based virtual filesystem layer via WinFsp.
 
+## Essential Files
+
+| File | Role |
+|---|---|
+| `main.cpp` | CLI entry point — all VHD create/mount/unmount logic via `diskpart` |
+| `VirtualDrive.h` | `VirtualDrive` class declaration + FUSE callback signatures |
+| `VirtualDrive.cpp` | FUSE `getattr`/`readdir` stubs; `fuse_main()` wrapper |
+| `CMakeLists.txt` | Build config — WinFsp paths, linked libraries, DLL copy step |
+
+> `build/` is entirely generated (CMake cache, Makefiles, object files, compiled binary). It is not needed to understand the code and should not be committed.
+
 ---
 
-## Features
+## Architecture
 
-- **Create VHD** — generates a new expandable VHD file, attaches it, creates a primary partition, auto-assigns a free drive letter, formats it as NTFS, then detaches it cleanly
-- **Mount VHD** — attaches an existing `.vhd` file so it appears as a drive in Windows Explorer
-- **Unmount VHD** — detaches a mounted VHD
-- **Auto drive letter selection** — scans from `Z:` downward, skipping `C:`, `D:`, and `E:`
-- **WinFsp/FUSE scaffold** — `VirtualDrive` class wraps FUSE operations (currently exposes a stub filesystem with a single dummy file)
+```
+main.cpp
+  └── VirtualDrive::mount(sourceFolder, mountPoint)
+        └── fuse_main() ──► getattrCallback()   // returns stub dir at "/"
+                       └──► readdirCallback()   // returns hardcoded "dummy.txt"
+```
+
+The `main.cpp` CLI operates independently of the FUSE layer — it shells out to `diskpart` using generated script files for all actual VHD operations. The `VirtualDrive` class is a separate, unused-by-main FUSE scaffold.
 
 ---
 
-## Requirements
+## Prerequisites
 
 - Windows 10/11 (64-bit)
-- [WinFsp](https://github.com/winfsp/winfsp/releases) installed at `C:\Program Files (x86)\WinFsp`
-- [MSYS2](https://www.msys2.org/) with the UCRT64 toolchain (`g++`, `mingw32-make`)
-- [CMake](https://cmake.org/) ≥ 3.16
+- [WinFsp](https://github.com/winfsp/winfsp/releases) at `C:\Program Files (x86)\WinFsp`
+- MSYS2 UCRT64 toolchain (`g++`, `mingw32-make`)
+- CMake ≥ 3.16
 - Administrator privileges (required by `diskpart`)
 
 ---
@@ -27,7 +41,6 @@ A Windows CLI tool for creating, mounting, and unmounting Virtual Hard Disk (VHD
 ## Build
 
 ```bash
-# From the project root
 mkdir build && cd build
 cmake .. -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug \
          -DCMAKE_C_COMPILER=E:/msys64/ucrt64/bin/gcc.exe \
@@ -35,13 +48,13 @@ cmake .. -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug \
 mingw32-make
 ```
 
-The executable `VirtualDriveMount.exe` and `winfsp-x64.dll` will appear in the `build/` directory.
+Output: `build/VirtualDriveMount.exe` and `build/winfsp-x64.dll`.
 
 ---
 
 ## Usage
 
-Run as **Administrator** (diskpart requires elevation):
+Run as **Administrator**:
 
 ```
 Virtual Disk CLI
@@ -49,37 +62,17 @@ Virtual Disk CLI
 2. Mount VHD
 3. Unmount VHD
 4. Exit
-Enter choice:
 ```
 
-- When creating, provide a filename like `myDisk.vhd`. A relative path is resolved to a full path automatically.
-- VHD size is fixed at **100 MB**, expandable type.
-- When mounting/unmounting, provide the same `.vhd` filename used at creation.
-
----
-
-## Project Structure
-
-```
-.
-├── main.cpp          # CLI entry point — menu, VHD create/mount/unmount logic
-├── VirtualDrive.h    # WinFsp/FUSE wrapper class declaration
-├── VirtualDrive.cpp  # FUSE callbacks (getattr, readdir) — stub implementation
-└── CMakeLists.txt    # Build configuration
-```
+- **Create**: provide a filename like `myDisk.vhd`. Relative paths are resolved to absolute automatically. VHD is 100 MB expandable, formatted NTFS, then detached.
+- **Mount / Unmount**: provide the same `.vhd` filename used at creation.
+- Drive letter is auto-selected scanning `Z:` downward, skipping `C:`, `D:`, `E:`.
 
 ---
 
 ## Known Limitations / TODOs
 
-- **FUSE integration is a stub** — `VirtualDrive::mount()` calls `fuse_main()` but the filesystem only returns a single hardcoded `dummy.txt` entry and does not proxy the real source folder yet
-- **VHD size is hardcoded** at 100 MB; no user input for size
-- **No error recovery** if diskpart fails partway through creation
-- `unmount()` on `VirtualDrive` is not implemented (FUSE exits via Ctrl+C)
-- Temporary diskpart script files (`create_vhd.txt`, etc.) are written to the working directory and could collide if multiple instances run simultaneously
-
----
-
-## License
-
-Not specified.
+- `VirtualDrive` FUSE layer is a stub — `readdirCallback` returns only a hardcoded `dummy.txt`; the source folder is never proxied
+- VHD size is hardcoded at 100 MB with no user input
+- Temporary diskpart scripts (`create_vhd.txt` etc.) are written to the working directory and could collide if multiple instances run simultaneously
+- `VirtualDrive::unmount()` is not implemented
